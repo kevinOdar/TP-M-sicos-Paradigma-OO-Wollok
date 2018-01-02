@@ -44,6 +44,6 @@ El costo debe calcular la sumatoria del cachet que cobra cada músico por hacer 
 
 ## Casos de prueba a implementar
 
-![]
-![]
-![]
+![](musicos1.jpg)
+![](musicos2.jpg)
+![](musicos3.jpg)
