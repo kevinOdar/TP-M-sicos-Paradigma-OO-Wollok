@@ -1,0 +1,281 @@
+import musicEntrega3.*
+
+describe "Tests del Ejercicio de Musica"{
+	
+	
+	var cancionCisne = new Cancion("Cisne",312,"Hoy el viento se abri� qued� vac�o el aire una vez m�s y el manantial brot� y nadie est� aqu� y puedo ver que solo estallan las hojas al brillar")
+	var cancionAlmaDeDiamante = new Cancion("Alma de diamante",216,"Ven a m� con tu dulce luz alma de diamante. Y aunque el sol se nuble despu�s sos alma de diamante. cielo o piel silencio o verdad sos alma de diamante. Por eso ven as� con la humanidad alma de diamante")
+	var cancionCrisantemo = new Cancion("Crisantemo",175,"T�came junto a esta pared, yo quede por aqu�... cuando no hubo m�s luz... quiero mirar a trav�s de mi piel... Crisantemo, que se abri�... encuentra el camino hacia el cielo")
+	var cancionLaFamilia = new Cancion("La Familia",264,"Quiero brindar por mi gente sencilla, por el amor brindo por la familia")
+	var cancionEres = new Cancion("Eres",145,"Eres lo mejor que me pas� en la vida, no tengo duda, no habr� m�s nada despu�s de ti. Eres lo que le dio brillo al d�a a d�a, y as� ser� por siempre, no cambiar�, hasta el final de mis d�as.")
+	var cancionCorazonAmericano = new Cancion("Coraz�n Americano",154,"Canta coraz�n, canta m�s alto, que tu pena al fin se va marchando, el nuevo milenio ha de encontrarnos, junto coraz�n, como so�amos")
+	var remixLaFamilia = new Remix("La Familia",264,"Quiero brindar por mi gente sencilla, por el amor brindo por la familia")
+	var mashupAlmaYCrisantemo = new Mashup("Alma de diamante",216,"Ven a m� con tu dulce luz alma de diamante. Y aunque el sol se nuble despu�s sos alma de diamante. cielo o piel silencio o verdad sos alma de diamante. Por eso ven as� con la humanidad alma de diamante","Crisantemo",175,"T�came junto a esta pared, yo quede por aqu�... cuando no hubo m�s luz... quiero mirar a trav�s de mi piel... Crisantemo, que se abri�... encuentra el camino hacia el cielo")
+	
+	var presentacionLunaPark = new Presentacion()
+	var presentacionLaTrastienda = new Presentacion()
+	var presentacionPdpPalooza = new PresentacionConRestricciones()
+	
+	
+	var especialLaFamilia = new Album([cancionLaFamilia],"Especial la familia",17,06,1992,100000,89000)
+	var laSole = new Album([cancionEres,cancionCorazonAmericano],"La Sole",04,02,2005,200000,130000)
+	var paraLosArboles = new Album([cancionCisne,cancionAlmaDeDiamante],"Para los �rboles",31,03,2003,50000,49000)
+	var justCrisantemo = new Album([cancionCrisantemo],"Just Crisantemo",05,12,2007,28000,27500)
+	
+	
+	var joaquin = new MusicoDeGrupo(20,false,[especialLaFamilia],5)
+	var lucia = new VocalistaPopular(70,true,[],"familia")
+	var kike = new MusicoDeGrupo(60,false,[],20)
+	var soledad = new VocalistaPopular(55,true,[laSole],"amor")
+	
+	var mashup1 = new MashupTest([cancionCisne,cancionLaFamilia,cancionCorazonAmericano])
+	
+	
+	//pto bonus
+	var presentacionTest = new PresentacionRestringida()
+	var presentacionTest2 = new PresentacionRestringida()
+	var condicionHabilidadMayorA90 = new CondicionHabilidadMayorA(90)
+	var condicionDebeSaberInterpretarLaFamilia = new CondicionSabeInterpretar(cancionLaFamilia) 
+	
+	//pto bonus
+	
+	fixture{
+		
+		luisAlberto.agregarAlbum(paraLosArboles)
+		luisAlberto.agregarAlbum(justCrisantemo)
+		presentacionLunaPark.modificarFecha(20,4,2017)
+		presentacionLunaPark.modificarLugar(lunaPark)
+		presentacionLunaPark.modificarCantantes([luisAlberto,joaquin,lucia])
+		presentacionLaTrastienda.modificarFecha(15,11,2017)
+		presentacionLaTrastienda.modificarLugar(laTrastienda)
+		presentacionLaTrastienda.modificarCantantes([luisAlberto,joaquin,lucia])
+		presentacionPdpPalooza.modificarFecha(15,12,2017)
+		presentacionPdpPalooza.modificarLugar(lunaPark)
+		
+		presentacionTest.modificarLugar(laTrastienda) //pto bonus
+		presentacionTest.modificarFecha(15,11,2017) //pto bonus
+		presentacionTest2.agregarCondiciones(condicionHabilidadMayorA90)
+		presentacionTest2.agregarCondiciones(condicionDebeSaberInterpretarLaFamilia)
+	}
+	
+	test "Joaqu�n canta en el grupo Pimpinela. Tiene 25 de habilidad " {
+		assert.equals(25,joaquin.habilidad())
+	}
+	
+	test "Joaqu�n deja el grupo. Tiene 20 de habilidad "{
+		joaquin.dejarGrupo()
+		assert.equals(20,joaquin.habilidad())
+	}
+	test "Lucia canta en el grupo Pimpinela. Tiene 50 de habilidad " {
+		lucia.enGrupo()
+		assert.equals(50,lucia.habilidad())
+	}
+	test "Lucia deja el grupo. Tiene 70 de habilidad " {
+		lucia.dejarGrupo()
+		assert.equals(70,lucia.habilidad())
+	}
+	test"Luis Alberto toca con la Fender. Tiene 80 de habilidad"{
+		luisAlberto.guitarra(fender)
+		assert.equals(80,luisAlberto.habilidad())
+	}
+	test"Luis Alberto toca con la Gibson sana. Tiene 100 de habilidad"{
+		luisAlberto.guitarra(gibson)
+		gibson.cambiarASana()
+		assert.equals(100,luisAlberto.habilidad())
+	}
+	test"Luis Alberto toca con la Gibson no sana. Tiene 40 de habilidad"{
+		luisAlberto.guitarra(gibson)
+		gibson.cambiarARota()
+		assert.equals(40,luisAlberto.habilidad())
+		}
+	
+	test "Joaqu�n interpreta bien la canci�n �La Familia�" { //test de la parte 3
+		assert.that(joaquin.interpretaBien(cancionLaFamilia))	
+	}
+	
+	test "Joaqu�n interpreta bien la canci�n �Cisne�" { //test de la parte 3
+		assert.that(joaquin.interpretaBien(cancionCisne))	
+	}
+	
+	test "Lucia interpreta bien la canci�n �La Familia�" { //test de la parte 3
+		assert.that(lucia.interpretaBien(cancionLaFamilia))
+	}
+	test "Lucia interpreta bien la canci�n �Cisne�" { //test de la parte 3
+		assert.that(lucia.interpretaBien(cancionCisne))	
+	}
+	test "Luis Alberto interpreta bien la canci�n �La Familia� "{ //test de la parte 3
+		assert.that(luisAlberto.interpretaBien(cancionLaFamilia))
+	}
+	test "Luis Alberto interpreta bien la canci�n �Cisne� "{ //test de la parte 3
+		assert.that(luisAlberto.interpretaBien(cancionCisne))
+	}
+	test "Cuanto cobra Joaquin en el Luna Park. 50"{
+		assert.equals(50,joaquin.cobra(presentacionLunaPark))
+	}
+	test "Cuanto cobra Joaquin actuando solo en la trastienda. 10"{
+		presentacionLaTrastienda.modificarCantantes([joaquin])
+		joaquin.dejarGrupo()
+		assert.equals(100,presentacionLaTrastienda.costo())
+		}
+	test "Queremos saber la capacidad de La Trastienda para el 05 de agosto del 2017, 700"{
+		assert.equals(700,laTrastienda.capacidad(05,08,2017))
+		}		
+		
+	test "Queremos saber la capacidad de La Trastienda para el 08 de agosto del 2017, 400"{
+		assert.equals(400,laTrastienda.capacidad(08,08,2017))
+	}
+	
+	test "Queremos saber cu�nto cobra Luc�a por la presentaci�n del Luna Park"{
+	assert.equals(500,lucia.cobra(presentacionLunaPark))
+	}
+	test "Queremos saber cu�nto cobra Luc�a por la presentaci�n del la Trastienda"{
+	assert.equals(400,lucia.cobra(presentacionLaTrastienda))
+	}
+	test "Queremos saber cu�nto cobra Luis Alberto por la presentaci�n del Luna Park"{
+		assert.equals(1000,luisAlberto.cobra(presentacionLunaPark))
+	}
+	test "Queremos saber cu�nto cobra Luis Alberto por la presentaci�n de La Trastienda"{
+		assert.equals(1200,luisAlberto.cobra(presentacionLaTrastienda))
+	}
+	test "Queremos saber el costo de la presentaci�n del Luna Park"{
+		assert.equals(1550,presentacionLunaPark.costo())
+	}
+	test "Queremos saber el costo de la presentaci�n de la Trastienda el 15/11/2017"{
+		assert.equals(1650,presentacionLaTrastienda.costo())
+	}
+	
+	// Test Parte 2
+	test "Saber si la canci�n �Crisantemo� es corta. S� (< 3 minutos)"{
+	assert.that(cancionCrisantemo.esCorta())
+	}
+	
+	test "Saber si la canci�n �Alma de diamante� es corta. No (>= 3 minutos)"{
+		assert.notThat(cancionAlmaDeDiamante.esCorta())
+	}
+	test "Saber si soledad es minimalista. S� (todas sus canciones duran menos de 3 minutos)"{
+		assert.that(soledad.esMinimalista())
+	}
+	test "Saber si luisAlberto es minimalista. No"{
+		assert.notThat(luisAlberto.esMinimalista())
+	}
+	test "Saber si joaquin es minimalista. No"{
+		assert.notThat(joaquin.esMinimalista())
+	}
+	test "Saber qu� canciones de Luis Alberto tienen la palabra �cielo�. Son las canciones �Crisantemo� y �Alma de diamante�"{
+	assert.equals([cancionAlmaDeDiamante,cancionCrisantemo],luisAlberto.contieneLaPalabra("cielo"))}
+	//preguntar sobre las mayusculas y minusculas
+	
+	test "Saber qu� canciones de Luis Alberto tienen la palabra pujante.Ninguna"{
+	assert.equals([],luisAlberto.contieneLaPalabra("pujante"))}
+	
+	test "Saber cu�ntos segundos dura la obra de Kike. 0"{
+		assert.equals(0,kike.duracionObra())
+	}
+	test "Saber cu�ntos segundos dura la obra de Soledad"{
+		assert.equals(299,soledad.duracionObra())
+	}
+	test "Saber cu�ntos segundos dura la obra de Luis Alberto"{
+		assert.equals(703,luisAlberto.duracionObra())
+	}
+	test "Saber qu� canci�n es m�s larga del �lbum �Para los �rboles�. �Alma de Diamante�"{
+		assert.equals(cancionAlmaDeDiamante,paraLosArboles.cancionConLaDuracionMasLarga())
+	}
+	test "Saber cu�l es la canci�n m�s larga del �lbum �La Sole��. �Eres�"{
+		assert.equals(cancionEres,laSole.cancionConLaDuracionMasLarga())
+	}
+	test "Saber cu�l es la canci�n m�s larga del �lbum �Especial La Familia��. �La Familia�"{
+		assert.equals(cancionLaFamilia,especialLaFamilia.cancionConLaDuracionMasLarga())
+	}
+	test "Queremos saber si Luis Alberto la peg�. Si"{
+		assert.that(luisAlberto.laPego())
+	}
+	test "Queremos saber si Soledad la peg�. No"{
+		assert.notThat(soledad.laPego())
+	}
+	test "Queremos saber si Luis Joaquin la peg�. Si"{
+		assert.that(joaquin.laPego())
+	}
+	test "Joaquin tocando en grupo tiene la misma habilidad al preguntar dos veces"{
+		joaquin.enGrupo()
+		var habilidadInicial = joaquin.habilidad()
+		assert.equals(habilidadInicial,joaquin.habilidad())
+		}
+		
+	test "Lucia tocando en grupo tiene la misma habilidad al preguntar dos veces"{
+		lucia.enGrupo()
+		var habilidadInicial = lucia.habilidad()
+		assert.equals(habilidadInicial,lucia.habilidad())
+
+}
+	test "Queremos saber si Joaqu�n canta bien la canci�n �La Familia�. Si"{
+		assert.that(joaquin.interpretaBien(cancionLaFamilia))
+	}
+	
+	//test de la parte 3
+	test "queremos saber si Luc�a canta bien la canci�n �Cisne� en el grupo Pimpinela. No"{
+		lucia.enGrupo()
+		assert.notThat(lucia.interpretaBien(cancionCisne))
+	}
+	test "Saber cu�l es la canci�n m�s larga del �lbum �Especial La Familia�, teniendo en cuenta la duraci�n. La Familia"{
+		assert.equals(cancionLaFamilia,especialLaFamilia.mayorSegun({cancion => cancion.duracion()}))
+	}
+	test "Saber cu�l es la canci�n m�s larga del �lbum �La Sole�, teniendo en cuenta la longitud de la letra. Eres"{
+		assert.equals(cancionEres,laSole.mayorSegun({cancion => cancion.longitud()}))
+	}
+	test "Saber cu�nto dura el remix de �La Familia�. 792  "{
+		assert.equals(792,remixLaFamilia.duracion())
+	}
+	test "Saber cu�l es la letra del remix de La Familia. mueve tu cuelpo baby Quiero brindar por mi gente sencilla, por el amor brindo por la familia yeah oh yeah"{
+		assert.equals("mueve tu cuelpo baby Quiero brindar por mi gente sencilla, por el amor brindo por la familia yeah oh yeah",remixLaFamilia.letra())
+	}	
+	test "Saber cu�l es la duraci�n del mashup de �Alma de Diamante� y  �Crisantemo�. 216 "{
+		assert.equals(216,mashupAlmaYCrisantemo.duracion())
+	}
+	test "Saber cu�l es la letra del mashup entre �Alma de Diamante� y �Crisantemo�"{
+		assert.equals("Ven a m� con tu dulce luz alma de diamante. Y aunque el sol se nuble despu�s sos alma de diamante. cielo o piel silencio o verdad sos alma de diamante. Por eso ven as� con la humanidad alma de diamante T�came junto a esta pared, yo quede por aqu�... cuando no hubo m�s luz... quiero mirar a trav�s de mi piel... Crisantemo, que se abri�... encuentra el camino hacia el cielo",mashupAlmaYCrisantemo.letra())
+	}
+	test "Intentar agregar al recital Pdpalooza a Luis Alberto"{
+		presentacionPdpPalooza.agregarUnCantante(luisAlberto)
+		assert.equals([luisAlberto],presentacionPdpPalooza.cantantesAceptados())
+	}
+	test "Intentar agregar al recital Pdpalooza a Joaquin"{
+		
+		assert.throwsExceptionWithMessage("El cantante no cumple con la habilidad minima de 70!!", {presentacionPdpPalooza.agregarUnCantante(joaquin)})
+	}
+	test "Subir la habilidad (base) de Luc�a a 90. Intentar agregar al recital Pdpalooza a Luc�a como solista. Debe dar error: Luc�a no tiene canciones compuestas"{
+	lucia.modificarHabilidad(90)
+	assert.throwsExceptionWithMessage("El cantante no es compositor!!",{presentacionPdpPalooza.agregarUnCantante(lucia)})
+	}
+	
+	test "Subir la habilidad (base) de Soledad a 80. Intentar agregar al recital Pdpalooza a Soledad. Soledad debe estar entre los m�sicos del recital"{
+		soledad.modificarHabilidad(80)
+		presentacionPdpPalooza.agregarUnCantante(soledad)
+		assert.equals([soledad],presentacionPdpPalooza.cantantesAceptados())
+	}
+	
+	//bonus
+	test "Defino 3 nuevas Condiciones y pruebo si luisAlberto puede ser agregado. Si"{
+		var condicionHabilidadMayorA50 = new CondicionHabilidadMayorA(50)
+		var condicionDebeSerCompositor = new CondicionDebeSerCompositor(true)
+		var condicionDebeSaberInterpretarCrisantemo = new CondicionSabeInterpretar(cancionCrisantemo)
+		presentacionTest.agregarCondiciones(condicionHabilidadMayorA50)
+		presentacionTest.agregarCondiciones(condicionDebeSerCompositor)
+		presentacionTest.agregarCondiciones(condicionDebeSaberInterpretarCrisantemo)
+		presentacionTest.agregarUnCantante(luisAlberto)
+		assert.equals([luisAlberto],presentacionTest.cantantesAceptados())
+	}
+	test "Defino Condicion imposible y trato de agregar a luisAlberto. Falla"{
+		var condicionHabilidadMayorA1000 = new CondicionHabilidadMayorA(1000)
+		presentacionTest.agregarCondiciones(condicionHabilidadMayorA1000)
+		assert.throwsExceptionWithMessage("La habilidad debe ser mayor a 1000",{presentacionTest.agregarUnCantante(luisAlberto)})
+	}
+	
+	test "Defino tests con condiciones iniciales que una de ellas excluye a soledad. La elimino y confirmo que Soledad puede ser agregada"{
+		presentacionTest2.eleminarCondiciones(condicionHabilidadMayorA90)
+		presentacionTest2.agregarUnCantante(soledad)
+		assert.equals([soledad],presentacionTest2.cantantesAceptados())
+	}
+	
+	test "Mashup de 3 canciones"{
+		assert.equals("Hoy el viento se abri� qued� vac�o el aire una vez m�s y el manantial brot� y nadie est� aqu� y puedo ver que solo estallan las hojas al brillar Quiero brindar por mi gente sencilla, por el amor brindo por la familia Canta coraz�n, canta m�s alto, que tu pena al fin se va marchando, el nuevo milenio ha de encontrarnos, junto coraz�n, como so�amos", mashup1.letra())	}
+}//
